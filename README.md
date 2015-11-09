@@ -1,6 +1,6 @@
 
 # JiraSync.Web
-*The web app for syncing two external Jiras on Node.js*
+*The Node.js web app for syncing two Jiras*
 
 ### SETUP
 
