@@ -1,0 +1,65 @@
+﻿doctype html
+html(ng-app="jiraSyncApp")
+  head
+    title #{title} - Jira Sync
+
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+    base(href="/")
+
+    link(rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-theme.min.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/jasny-bootstrap.min.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-callout.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/layout.css")
+    link(rel="stylesheet" type="text/css" href="/stylesheets/octicons.css")
+
+    block css
+
+    script(src="/javascripts/vendor/modernizr-2.6.2.js")
+    script(src="/javascripts/vendor/jquery-1.10.2.min.js")
+    script(src="/javascripts/vendor/bootstrap.min.js")
+    script(src="/javascripts/vendor/respond.min.js")
+    script(src="/javascripts/vendor/jquery.smooth-scroll.min.js")
+
+  body(ng-cloak)
+    .navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/" target="_self") Jira Sync
+        .navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li
+              a(href="/home" target="_self") Home
+            li
+              a(href="/sync" target="_self") Sync
+            li
+              a(href="/about" target="_self") About
+            if isAlmostLoggedIn
+              li
+                a(href="/logout" target="_self") Logout
+
+    .container.body-content
+      .content-body
+        #beta
+          img(src="images/beta_banner_soft.png" class="beta-ribbon")
+        block content
+        hr
+        footer
+          .footer
+            p &copy; #{assemblyInfo.year} - Jira Sync - #{assemblyInfo.version}
+              if assemblyInfo.beta
+                span b
+
+    script.
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      });
+
+    block scripts

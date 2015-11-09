@@ -1,0 +1,14 @@
+jirasync-web/obj/
+jirasync-web/iisnode/
+jirasync-web/.ntvs_analysis.dat
+jirasync-web/FTP.pubxml
+jirasync-web/FTP.pubxml.user
+jirasync-web/.idea
+jirasync-web/.vscode
+jirasync-web/routes/api/login.js
+.idea
+.git
+.vs
+*.suo
+jirasync-web/public/stylesheets/style.css
+jirasync-web/.ntvs_analysis.dat.tmp

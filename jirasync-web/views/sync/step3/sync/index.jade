@@ -1,0 +1,27 @@
+﻿//./sync/index.jade
+.row
+  include /shared/status.jade
+
+.row
+  include ./header.jade
+
+.row
+  .col-md-6
+    include /shared/projectFrom.jade
+
+  .col-md-6
+    include /shared/projectTo.jade
+
+.row
+  include ./diff.jade
+
+//error message display =======================================================
+.row
+  .col-md-12
+    #listError.alert.alert-danger.hidden(role="alert")
+
+//end of error message display ================================================
+
+.row
+  .col-md-4
+    include ./legend.jade

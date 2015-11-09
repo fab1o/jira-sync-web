@@ -1,0 +1,33 @@
+﻿//sync/step1
+extends /layout
+
+block css
+  link(rel="stylesheet" type="text/css" href="/stylesheets/sync.css")
+
+block content
+  .jumbotron.white
+    h2 Sync from #{host} as '#{displayName}'
+    p Step 1: Select the project you wish to sync from #{host}
+
+    if error
+      .alert.alert-danger(role="alert") Project key '#{keyFrom}' could not be found on #{host}
+
+    .table-responsive
+      table.table.table-hover.table-bordered
+        thead
+          tr
+            th 
+            th Key: Name
+            th Category
+        tbody.rowlink(data-link="row")
+          each item, index in projects
+            tr(onclick="location = '/sync/" + item.key + "'")
+              td                
+                .avatar-small(id="#{item.key}")
+                  script
+                    $.get("/api/avatar?class=avatar-small&type=from&url=!{item.avatarUrls["16x16"]}", function(result) { $("##{item.key}").html(result);});
+              td
+                  =item.key + ": " + item.name
+              td
+                if item.projectCategory
+                  =item.projectCategory.name

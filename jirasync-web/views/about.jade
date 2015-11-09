@@ -1,0 +1,12 @@
+//about
+extends layout
+
+block content
+  .jumbotron.white
+    .container-fluid
+      h2 #{title}
+      h3 #{message} -&nbsp;
+        span version: #{assemblyInfo.version}
+        if assemblyInfo.beta
+          span b
+      p Tool for syncing up two JIRA servers

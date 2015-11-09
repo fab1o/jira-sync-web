@@ -1,0 +1,9 @@
+//error
+extends layout
+
+block content
+  .jumbotron.white
+    .container-fluid
+      h1 Error #{error.status} 
+      h2= message
+      pre #{error.stack}

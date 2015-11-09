@@ -1,0 +1,14 @@
+﻿//./header.jade
+.col-md-5.text-right
+  h2.overflow-hide
+    a(href="https://#{hostFrom}" target="_blank")
+      span #{hostFrom}
+.col-md-2.center-block.text-center
+  h2.overflow-hide
+    a(href="/switch/#{keyFrom}/#{keyTo}" target="_self" data-toggle="tooltip" data-placement="top" title="Reverse direction will sync #{keyTo} to #{keyFrom}")
+      span.glyphicon.glyphicon-transfer(aria-hidden="true")
+      span.sr-only ><
+.col-md-5.text-left
+  h2.overflow-hide
+    a(href="https://#{hostTo}" target="_blank")
+      span #{hostTo}

@@ -1,0 +1,22 @@
+{
+  "name": "JiraSync.Web",
+  "version": "1.0.0",
+  "description": "JiraSync.Web",
+  "main": "app.js",
+  "author": {
+    "name": "Fabio Costa",
+    "email": "fabio.costa@digiflare.com"
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "q": "*",
+    "request": "*",
+    "btoa":  "*",
+    "stylus": "*",
+    "string-format": "*",
+    "jira": "*",
+    "linq": "*",
+    "csv": "*"
+  }
+}

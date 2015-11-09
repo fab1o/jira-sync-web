@@ -1,0 +1,361 @@
+﻿extends /layout
+
+block css
+  link(rel="stylesheet", type="text/css", href="/stylesheets/sync.css")
+
+block content
+  .jumbotron.white
+    .container-fluid
+      //h2.title Sync from #{hostFrom} to #{hostTo}
+      //p Step 3: Check the report status and press the sync buttton
+
+      form(method="get" action="/api/sync/#{keyFrom}/#{keyTo}")
+        .row
+          .col-md-10.height-80
+            .alert.vertical-middle-force(role="alert" class=(diff.isSynced ? "alert-success" : "alert-danger"))
+              if diff.isSynced
+                span.glyphicon.glyphicon-ok-sign(aria-hidden="true")
+                span.sr-only Ok
+                &nbsp;
+                strong Projects are in sync!
+              else
+                span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
+                &nbsp;
+                strong Projects are not in sync!
+            //.bs-callout(class=(diff.isSynced ? "bs-callout-success bs-callout-font-success" : "bs-callout-danger bs-callout-font-danger"))
+              if diff.isSynced
+                span.glyphicon.glyphicon-ok-sign(aria-hidden="true")
+                span.sr-only Ok
+                &nbsp;
+                strong Projects are in sync!
+              else
+                span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
+                &nbsp;
+                strong Projects are not in sync!
+          .col-md-2.height-80
+            button.vertical-middle-force.btn.btn-success.btn-lg.btn-block(data-toggle="tooltip" data-placement="top" title=(diff.isSynced ? null : "Sync #{keyFrom} to #{keyTo}") disabled=(diff.isSynced ? "disabled" : null) class=(diff.isSynced ? "disabled" : null))
+              span Sync
+            
+      //project headers ==========================================================
+      .row
+        .col-md-5.text-right
+          h2.overflow-hide
+            a(href="https://#{hostFrom}" target="_blank")
+              span #{hostFrom}
+        .col-md-2.center-block.text-center      
+          h2.overflow-hide
+            a(href="/switch/#{keyFrom}/#{keyTo}" target="_self" data-toggle="tooltip" data-placement="top" title="Reverse direction will sync #{keyTo} to #{keyFrom}")
+              span.glyphicon.glyphicon-transfer(aria-hidden="true")
+              span.sr-only ><
+        .col-md-5.text-left
+          h2.overflow-hide
+            a(href="https://#{hostTo}" target="_blank")
+              span #{hostTo}
+
+      //end of project headers ===================================================
+
+      //project info =============================================================
+      .row
+        .col-md-6
+          .thumbnail.well.white.min-height-262
+            .avatar-large.center-block#projectFromAvatar
+              script
+                $.get("/api/avatar?type=from&url=!{projectFrom.avatarUrls["48x48"]}", function(result) { $("#projectFromAvatar").html(result);});
+            .caption.text-center
+              a(href="https://#{hostFrom}/projects/#{projectFrom.key}/issues" target="_blank")
+                h3.overflow-hide #{projectFrom.key}: #{projectFrom.name}
+
+              if projectFrom.projectCategory
+                h4.overflow-hide #{projectFrom.projectCategory.name}
+              else
+                h4 -
+
+              p #{projectFrom.description}
+
+            if projectFrom.lead
+              .row
+                .col-md-6.col-xs-6.text-right
+                  a(href="https://#{hostFrom}/secure/ViewProfile.jspa?name=#{projectFrom.lead.key}" target="_blank")
+                    h5.overflow-hide #{projectFrom.lead.displayName}
+                .col-md-6.col-xs-6
+                  .avatar-medium#leadPicFrom
+                    script
+                      $.get("/api/avatar?class=avatar-medium&type=from&url=!{projectFrom.lead.avatarUrls["32x32"]}", function(result) { $("#leadPicFrom").html(result);});
+    
+        .col-md-6
+          .thumbnail.well.white.min-height-262
+            .avatar-large.center-block#projectToAvatar
+              script
+                $.get("/api/avatar?type=to&url=!{projectTo.avatarUrls["48x48"]}", function(result) { $("#projectToAvatar").html(result);});
+
+            .caption.text-center
+              a(href="https://#{hostTo}/projects/#{projectTo.key}/issues" target="_blank")
+                h3.overflow-hide #{projectTo.key}: #{projectTo.name}
+
+              if projectTo.projectCategory
+                h4.overflow-hide #{projectTo.projectCategory.name}
+              else
+                h4 -
+
+              p #{projectTo.description}
+
+            if projectTo.lead
+              .row
+                .col-md-6.col-xs-6.text-right
+                  a(href="https://#{hostTo}/secure/ViewProfile.jspa?name=#{projectTo.lead.key}" target="_blank")
+                    h5.overflow-hide #{projectTo.lead.displayName}
+                .col-md-6.col-xs-6
+                  .avatar-medium#leadPicTo
+                    script
+                      $.get("/api/avatar?class=avatar-medium&type=to&url=!{projectTo.lead.avatarUrls["32x32"]}", function(result) { $("#leadPicTo").html(result);});
+                      
+      //end of project info ======================================================
+
+      // options of visualization ================================================
+      .row
+        
+
+      //differences ==============================================================
+      
+      //for displaying of error message
+      .row
+        .col-md-12
+          .alert.alert-danger.hidden#listError(role="alert")
+
+      each list in diff.lists
+        .row
+          mixin listTemplate(list)
+
+      //each _, r in diff.lists
+        if (r % 2 == 0)
+          .row
+            each list in diff.lists.slice(r, r + 2)
+              mixin listTemplate(list)
+      //end of differences ==========================================================
+                   
+      .row
+        .col-md-12.height-80
+                             
+      //legend ======================================================================
+      .row
+        .col-md-7
+          .col-md-7.smaller-font
+            .table-responsive
+              table.table.table-condensed.table-hover.table-bordered
+                thead
+                  tr.active
+                    th.width-100(colspan=2) Legend
+                tbody
+                    tr
+                      td.width-5
+                        span.glyphicon.glyphicon-share-alt(aria-hidden="true")
+                      td.width-95
+                        span Indicates item to be synced to #{keyTo}
+                    tr
+                      td.width-5
+                        span.glyphicon.glyphicon-minus(aria-hidden="true")
+                      td.width-95
+                        span Indicates item exists on #{keyTo}**
+                    tr.success
+                      td.width-5
+                        span.glyphicon.glyphicon-ok.text-success(aria-hidden="true")
+                      td.width-95
+                        span Indicates item is in sync*
+                    tr.info
+                      td.width-5
+                        span.glyphicon.glyphicon-plus.text-info(aria-hidden="true")
+                      td.width-95
+                        span Indicates item to be added to #{keyTo}
+                    tr.danger
+                      td.width-5
+                        span.glyphicon.glyphicon-remove.text-danger(aria-hidden="true")
+                      td.width-95
+                        span Indicates item to be removed from #{keyTo}
+                    tr
+                      td.width-5
+                        span.glyphicon.glyphicon-asterisk(aria-hidden="true")
+                      td.width-95
+                        span Total of items
+                    tr
+                      td.width-100(colspan=2)
+                        span.font-size-smaller *This is not implemented yet
+                        br
+                        span.font-size-smaller **Based on the same name or key
+      //end of legend =================================================================
+
+block scripts
+  
+  script.
+
+    function syncItem(obj, listId, listTitle, id, name) {
+
+        var col = obj.parentNode;
+        var row = obj.parentNode.parentNode
+
+        $("body").css("cursor", "wait");
+
+        var alertBox = $("#listError");
+
+        alertBox.hide();
+        alertBox.addClass("hidden");
+
+        $
+        .get("/api/sync/#{keyFrom}/#{keyTo}/" + listTitle + "/" + id)
+        .done(function(newItem, b, http) {
+            
+            if (http.status == 201) {
+
+                //add success color to row
+                $(row).find("td").removeClass("info").removeClass("warning").removeClass("danger").addClass("success");
+
+                //add icon and text to last column
+                $(row).find("td:last-child").find("span").removeClass("glyphicon-plus").removeClass("glyphicon-remove").removeClass("text-danger").removeClass("text-info").addClass("glyphicon-ok").addClass("text-success");
+
+                //add the new id to second last column
+                $(row).find("td:nth-last-child(2)").append(newItem.link);
+
+                var addCount = parseInt($("#addCount_" + listId).text());
+                addCount--;
+                $("#addCount_" + listId).text(addCount);
+
+                $(obj).prop("onclick", null).off("click");
+
+            } else if (http.status == 204) {
+            
+                $(row).remove();
+
+                var removeCount = parseInt($("#removeCount_" + listId).text());
+                removeCount--;
+                $("#removeCount_" + listId).text(removeCount);
+
+            }
+
+        })
+        .fail(function(resp) {
+
+            var message = "Could not sync \"" + name + "\" onto #{keyTo}.";
+
+            if (resp.responseJSON && resp.responseJSON.errors) {
+                
+                for (var error in resp.responseJSON.errors) {
+                    if (resp.responseJSON.errors.hasOwnProperty(error))
+                        message += " " + resp.responseJSON.errors[error];
+                }
+
+                alertBox.text(message);
+
+            }else{
+
+                alertBox.text(message + " " + resp.responseText);
+            }
+
+            alertBox.show();
+            alertBox.removeClass("hidden");
+
+            $.smoothScroll({
+              offset: -200,
+              scrollTarget: "#listError"
+            });
+        
+        })
+        .always(function() {
+
+            $("body").css("cursor", "default");
+
+        });
+
+      };
+  
+//mixins
+mixin itemTemplate(list, item)
+  if (item == null)
+    td(colspan=5)
+  else
+    -var clickFunc = !item.isSynced ? "syncItem(this, \"" + list.id + "\", \"" + list.title + "\", \""+ item.id + "\", \"" + (item.name || item.key) + "\")" : null;
+
+    td.overflow-hide.rowlink-skip(class=item.class)= item.name || item.key
+    td.width-7.text-right.rowlink-skip(class=item.class)
+      if (item.linkFrom)
+        a(href=item.linkFrom target="_blank")= item.idFrom
+      else
+        =item.idFrom
+    td.width-3.text-center.rowlink-skip(class=item.class)
+      if (item.isNew)
+        span.glyphicon.glyphicon-share-alt(aria-hidden="true")
+      else
+        span.glyphicon.glyphicon-minus(aria-hidden="true")
+    td.width-7.text-right.rowlink-skip(class=item.class)
+      if (item.linkTo)
+        a(href=item.linkTo target="_blank")= item.idTo
+      else
+        =item.idTo
+    td.width-3.text-center(class=item.class)
+      if (item.isNew)
+        span.glyphicon.glyphicon-plus.text-info.action(onclick=clickFunc aria-hidden="true" data-toggle="tooltip" data-placement="right" title="add")
+      else if (item.isRemoved)
+        span.glyphicon.glyphicon-remove.text-danger.action(onclick=clickFunc aria-hidden="true" data-toggle="tooltip" data-placement="right" title="delete")
+      else
+        span.glyphicon.glyphicon-ok.text-success(aria-hidden="true")
+
+mixin listTemplate(list)
+  .col-md-12
+    .table-responsive
+      table.table.table-condensed.table-hover.table-bordered
+        thead
+          tr.active
+            -for(var i = 0; i < 2; i++)
+              th.width-26= list.title
+              th.overflow-hide.width-12.text-center(colspan=2)
+                  =projectFrom.key
+              th.overflow-hide.width-12.text-center(colspan=2)
+                  =projectTo.key
+
+        tbody
+          each i, r in list.items
+            if (r % 2 == 0)
+              tr
+                mixin itemTemplate(list, list.items.slice(r, r + 1)[0])
+                mixin itemTemplate(list, list.items.slice(r + 1, r + 2)[0])
+
+          tr
+            //totals
+            td.text-center.smaller-font.vertical-middle(colspan=10)
+              span.glyphicon.glyphicon-ok.text-success
+              span.strong.text-success(id="syncedCount_#{list.id}")= list.syncedCount
+              span &nbsp;&nbsp;
+              span.glyphicon.glyphicon-plus.text-info
+              span.strong.text-info(id="addCount_#{list.id}")= list.addCount
+              span &nbsp;&nbsp;
+              span.glyphicon.glyphicon-remove.text-danger
+              span.strong.text-danger(id="removeCount_#{list.id}")= list.removeCount
+              span &nbsp;&nbsp;
+              span.glyphicon.glyphicon-asterisk
+              span.strong(id="totalCount_#{list.id}")= list.total
+
+mixin pagination(list)
+  tr
+    //pagination
+    if (list.pagination)
+      td.text-center.smaller-font(colspan=5)
+        nav
+          ul.pagination.pagination-sm.margin-0
+            each page in list.pagination.pages
+              li(class=(page == list.pagination.active ? "active" : ""))
+                if (page == list.pagination.active)
+                  a= page
+                else
+                  a(href="/sync/#{keyFrom}/#{keyTo}/?page=#{page}")= page
+
+    //totals
+    td.text-center.smaller-font.vertical-middle(colspan=(list.pagination ? 5 : 10))
+      span.glyphicon.glyphicon-ok.text-success
+      span.strong.text-success(id="syncedCount_#{list.id}")= list.syncedCount
+      span &nbsp;&nbsp;
+      span.glyphicon.glyphicon-plus.text-info
+      span.strong.text-info(id="addCount_#{list.id}")= list.addCount
+      span &nbsp;&nbsp;
+      span.glyphicon.glyphicon-remove.text-danger
+      span.strong.text-danger(id="removeCount_#{list.id}")= list.removeCount
+      span &nbsp;&nbsp;
+      span.glyphicon.glyphicon-asterisk
+      span.strong(id="totalCount_#{list.id}")= list.total

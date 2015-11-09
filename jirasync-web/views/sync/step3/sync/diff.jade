@@ -1,0 +1,78 @@
+﻿//./diff.jade
+each _, r in diff.lists
+  if (r % 2 == 0)
+    .row
+      each list in diff.lists.slice(r, r + 2)
+        mixin listTemplate(list)
+
+
+mixin listTemplate(list)
+  .col-md-6
+    .table-responsive
+      table.table.table-condensed.table-hover.table-bordered
+        thead
+          tr.active
+            th.width-70= list.title
+            th.overflow-hide.width-15.text-center(colspan=2)
+                =projectFrom.key
+            th.overflow-hide.width-15.text-center(colspan=2)
+                =projectTo.key
+        tbody
+          each item in list.items
+            -var clickFunc = !item.isSynced ? "syncItem(this, \"" + list.id + "\", \"" + list.title + "\", \""+ item.id + "\", \"" + (item.name || item.key) + "\")" : null;
+
+            tr(class=item.class)
+
+              td.overflow-hide.rowlink-skip= item.name || item.key
+              td.width-10.text-right.rowlink-skip
+                if (item.linkFrom)
+                  a(href=item.linkFrom target="_blank")= item.idFrom
+                else
+                  =item.idFrom
+              td.width-5.text-center.rowlink-skip
+                if (item.isNew)
+                  span.glyphicon.glyphicon-share-alt(aria-hidden="true")
+                else
+                  span.glyphicon.glyphicon-minus(aria-hidden="true")
+              td.width-10.text-right.rowlink-skip
+                if (item.linkTo)
+                  a(href=item.linkTo target="_blank")= item.idTo
+                else
+                  =item.idTo
+              td.width-5.text-center(data-link="row")
+                if (item.isNew)
+                  span.glyphicon.glyphicon-plus.text-info.action(onclick=clickFunc aria-hidden="true" data-toggle="tooltip" data-placement="right" title="add")
+                else if (item.isRemoved)
+                  span.glyphicon.glyphicon-remove.text-danger.action(onclick=clickFunc aria-hidden="true" data-toggle="tooltip" data-placement="right" title="delete")
+                else
+                  span.glyphicon.glyphicon-ok.text-success(aria-hidden="true")
+
+          tr
+            //pagination
+            if (list.pagination)
+              td.text-center.smaller-font
+                nav.height-16
+                  ul.pagination.pagination-sm.margin-0
+                    each page in list.pagination.pages
+                      li(class=(page == list.pagination.active ? "active" : ""))
+                        if (page == list.pagination.active)
+                          a= page
+                        else
+                          a(href="/sync/#{keyFrom}/#{keyTo}/?page=#{page}")= page
+            else
+              td
+
+            //totals
+            td.text-center.smaller-font.vertical-middle(colspan=4)
+              //td.text-center.smaller-font.vertical-middle(colspan=5)
+              span.glyphicon.glyphicon-ok.text-success
+              span.strong.text-success(id="syncedCount_#{list.id}")= list.syncedCount
+              span &nbsp;&nbsp;
+              span.glyphicon.glyphicon-plus.text-info
+              span.strong.text-info(id="addCount_#{list.id}")= list.addCount
+              span &nbsp;&nbsp;
+              span.glyphicon.glyphicon-remove.text-danger
+              span.strong.text-danger(id="removeCount_#{list.id}")= list.removeCount
+              span &nbsp;&nbsp;
+              span.glyphicon.glyphicon-asterisk
+              span.strong(id="totalCount_#{list.id}")= list.total

@@ -1,0 +1,84 @@
+﻿//login
+extends layout
+
+block css
+    link(rel="stylesheet", type="text/css", href="/stylesheets/login.css")
+
+//block scripts
+    script(src="/javascripts/controllers/login.js")
+
+block content
+  .jumbotron.white
+    .container-fluid
+      h2 #{title}
+      h3 #{message}
+  
+      unless isLoggedIn
+        p Login with your Jira account on each 'Sync from' and 'Sync to' form
+
+      .row
+        .col-md-6
+          if login.from && login.from.success
+            .text-success.login-padding.center-block Successfully logged to sync from #{login.from.host} as '#{login.from.displayName}'
+          else
+            form(method="post" action="/api/login")
+              .form-login.login-padding.center-block
+                input(type="hidden" name="redirectUrl" value="#{redirectUrl}")
+                input(type="hidden" name="formType" value="from")
+
+                h4.title Sync from
+
+                .input-group
+                  span.input-group-addon.input-sm https://
+                  input#hostFrom.form-control.input-sm.chat-input(type="text" name="host" placeholder="host name" required onkeypress="if (event.charCode == 32) return false" value=(login.from ? login.from.host : "") )
+                br
+                input.form-control.input-sm.chat-input(type="text" name="userName" placeholder="user name" required value=(login.from ? login.from.userName : "") )
+                br
+                input.form-control.input-sm.chat-input(type="password" name="userPassword" placeholder="password" required)
+                br
+                .wrapper
+                  input.btn.btn-primary(type="submit" name="submit" value="Login")
+                  &nbsp;
+                  input.btn.btn-info(type="submit" name="submit" value="Univision" title="Direct login using eduard.casanovas" formnovalidate)
+                  
+        .col-md-6
+          if login.to && login.to.success
+            .text-success.login-padding.center-block Successfully logged to sync to #{login.to.host} as '#{login.to.displayName}'
+          else
+            form(method="post" action="/api/login")
+              .form-login.login-padding.center-block
+                input(type="hidden" name="redirectUrl" value="#{redirectUrl}")
+                input(type="hidden" name="formType" value="to")
+
+                h4.title Sync to
+
+                .input-group
+                  span.input-group-addon.input-sm https://
+                  input#hostTo.form-control.input-sm.chat-input(type="text" name="host" placeholder="host name" required onkeypress="if (event.charCode == 32) return false" value=(login.to ? login.to.host : "digiflare.atlassian.net") )
+                br
+                input.form-control.input-sm.chat-input(type="text" name="userName" placeholder="user name" required value=(login.to ? login.to.userName : "sync.user") )
+                br
+                input.form-control.input-sm.chat-input(type="password" name="userPassword" placeholder="password" required)
+                br
+                .wrapper
+                  input.btn.btn-primary(type="submit" name="submit" value="Login")
+                  &nbsp;
+                  input.btn.btn-info(type="submit" name="submit" value="Digiflare" title="Direct login using sync.user" formnovalidate)
+
+      .row
+        .col-md-6
+          .login-padding.center-block
+            if login.from && !login.from.success
+              .text-danger Login failed. Verify if the host name, user name and password are correct.
+          
+        .col-md-6
+          .login-padding.center-block
+            if login.to && !login.to.success
+              .text-danger Login failed. Verify if the host name, user name and password are correct.
+
+      .row            
+        if isLoggedIn
+          p
+            a.btn.btn-danger.btn-large(href='/logout' target="_self") Logout
+            &nbsp;
+            a.btn.btn-primary.btn-large(href='/sync' target="_self") Start sync &raquo;

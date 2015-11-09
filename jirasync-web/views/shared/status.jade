@@ -1,0 +1,17 @@
+﻿///shared/status.jades
+form(method="post" action="/api/sync/#{keyFrom}/#{keyTo}")
+  .col-md-10.height-80
+    .alert.vertical-middle-force(role="alert" class=(diff.isSynced ? "alert-success" : "alert-danger"))
+      if (diff.isSynced)
+        span.glyphicon.glyphicon-ok-sign(aria-hidden="true")
+        span.sr-only Ok
+        &nbsp;
+        strong Projects are in sync!
+      else
+        span.glyphicon.glyphicon-exclamation-sign(aria-hidden="true")
+        &nbsp;
+        strong Projects are not in sync!
+
+  .col-md-2.height-80
+    button.vertical-middle-force.btn.btn-success.btn-lg.btn-block(data-toggle="tooltip" data-placement="top" title=(diff.isSynced ? null : "Sync #{keyFrom} to #{keyTo}") disabled=(diff.isSynced ? "disabled" : null) class=(diff.isSynced ? "disabled" : null))
+      span Sync

@@ -1,0 +1,42 @@
+﻿//./legend.jade
+.table-responsive.smaller-font
+  table.table.table-condensed.table-bordered
+    thead
+      tr.active
+        th.width-100(colspan=2) Legend
+    tbody
+        tr
+          td.width-5
+            span.glyphicon.glyphicon-share-alt(aria-hidden="true")
+          td.width-95
+            span Indicates item to be synced to #{keyTo}
+        tr
+          td.width-5
+            span.glyphicon.glyphicon-minus(aria-hidden="true")
+          td.width-95
+            span Indicates item exists on #{keyTo}**
+        tr.success
+          td.width-5
+            span.glyphicon.glyphicon-ok.text-success(aria-hidden="true")
+          td.width-95
+            span Indicates item is in sync*
+        tr.info
+          td.width-5
+            span.glyphicon.glyphicon-plus.text-info(aria-hidden="true")
+          td.width-95
+            span Indicates item to be added to #{keyTo}
+        tr.danger
+          td.width-5
+            span.glyphicon.glyphicon-remove.text-danger(aria-hidden="true")
+          td.width-95
+            span Indicates item to be removed from #{keyTo}
+        tr
+          td.width-5
+            span.glyphicon.glyphicon-asterisk(aria-hidden="true")
+          td.width-95
+            span Total of items
+        tr
+          td.width-100(colspan=2)
+            span.font-size-smaller *This is not implemented yet
+            br
+            span.font-size-smaller **Based on the same name or key

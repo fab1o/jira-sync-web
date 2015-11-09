@@ -1,0 +1,26 @@
+﻿///shared/projectTo.jade
+.thumbnail.well.white.min-height-262
+  .avatar-large.center-block#projectToAvatar
+    script.
+      $.get("/api/avatar?type=to&url=!{projectTo.avatarUrls["48x48"]}", function(result) { $("#projectToAvatar").html(result);});
+
+  .caption.text-center
+    a(href="https://#{hostTo}/projects/#{projectTo.key}/issues" target="_blank")
+      h3.overflow-hide #{projectTo.key}: #{projectTo.name}
+
+    if projectTo.projectCategory
+      h4.overflow-hide #{projectTo.projectCategory.name}
+    else
+      h4 -
+
+    p #{projectTo.description}
+
+  if projectTo.lead
+    .row
+      .col-md-6.col-xs-6.text-right
+        a(href="https://#{hostTo}/secure/ViewProfile.jspa?name=#{projectTo.lead.key}" target="_blank")
+          h5.overflow-hide #{projectTo.lead.displayName}
+      .col-md-6.col-xs-6
+        #leadPicTo.avatar-medium
+          script.
+            $.get("/api/avatar?class=avatar-medium&type=to&url=!{projectTo.lead.avatarUrls["32x32"]}", function(result) { $("#leadPicTo").html(result);});
