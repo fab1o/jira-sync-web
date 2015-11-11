@@ -7,18 +7,18 @@ block css
 block content
   .jumbotron.white
     .container-fluid
-      ul.nav.nav-tabs(role="tablist")
+      ul.nav.nav-tabs.strong(role="tablist")
         li.active(role="presentation")
           a(href="#sync" aria-controls="home" role="tab" data-toggle="tab") Sync
         li(role="presentation")
-          a(href="#settings" aria-controls="profile" role="tab" data-toggle="tab") Settings
+          a(href="#mapping" aria-controls="profile" role="tab" data-toggle="tab") Mapping
 
       .tab-content
         #sync.tab-pane.active(role="tabpanel")
           include ./sync/index.jade
 
-        #settings.tab-pane(role="tabpanel")
-          include ./settings.jade
+        #mapping.tab-pane(role="tabpanel")
+          include ./mapping.jade
 
 
 block scripts

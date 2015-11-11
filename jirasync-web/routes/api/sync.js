@@ -2,6 +2,7 @@
 
 var Enumerable = require("linq");
 var jira = require("../../modules/jira");
+var util = require("../../modules/util");
 var diff = require("../../modules/diff");
 var sync = require("../../modules/sync");
 var Q = require ("q");
@@ -134,39 +135,6 @@ exports.version = function (req, res) {
     
 };
 
-function cloneIssue(obj, fields, isFields) {
-    
-    if (obj === null || typeof obj !== "object") {
-        return obj;
-    }
-    
-    var temp = obj.constructor();
-    for (var key in obj) {
-
-        if (obj.hasOwnProperty(key)) {
-
-            if (key == "fields") {
-
-                temp[key] = cloneIssue(obj[key], fields, true);
-
-            } else if (isFields && fields) {
-
-                if (fields.indexOf(key) != -1)
-                    temp[key] = cloneIssue(obj[key], fields);
-            }
-            else {
-
-                temp[key] = cloneIssue(obj[key]);
-
-            }
-
-        }
-        
-    }
-    
-    return temp;
-};
-
 exports.issue = function (req, res) {
     
     if (req.body.id == null || req.body.keyOrName == null) {
@@ -215,7 +183,7 @@ exports.issue = function (req, res) {
 
             } else if (issueTo == null && issueFrom != null) { //add
                 
-                issueTo = cloneIssue(issueFrom, regularFields);
+                issueTo = util.cloneIssue(issueFrom, regularFields);
                 
                 addCustomField(issueFrom, customFields, req)
                 .then(function (customFields) {

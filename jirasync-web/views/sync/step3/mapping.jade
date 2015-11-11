@@ -1,0 +1,78 @@
+﻿//./settings.jade
+.row
+  .col-md-12.settings-well
+    .panel.panel-default
+      .panel-heading Priority
+      .panel-body
+        .col-md-2.height-32
+          span Priority 1
+        .col-md-2.height-32
+          select.width-200px#priority
+            option Item 1
+            option Item 2
+            option Item 3
+            option Item 4
+            option Item 5
+            option Item 6
+
+
+        //.col-md-6
+          ul.list-group
+            li.list-group-item
+              span.avatar-small.float#projectFromPriorityAvatar
+                  script
+                    $.get("/api/avatar?type=from&url=!{projectFrom.avatarUrls["48x48"]}", function(result) { $("#projectFromPriorityAvatar").html(result);});
+              span.col-md-10.strong #{projectFrom.key}: #{projectFrom.name}
+              .clear
+          ul.list-group.sortable
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+        //.col-md-6
+          ul.list-group
+            li.list-group-item
+              span.avatar-small.float#projectToPriorityAvatar
+                  script
+                    $.get("/api/avatar?type=to&url=!{projectTo.avatarUrls["48x48"]}", function(result) { $("#projectToPriorityAvatar").html(result);});
+              span.col-md-10.strong #{projectTo.key}: #{projectTo.name}
+              .clear
+          ul.list-group.sortable
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+            li.list-group-item
+              span.glyphicon.glyphicon-resize-vertical
+              span Item 1
+
+
+script.
+  $(function() {
+    $("#priority").selectmenu();
+  });

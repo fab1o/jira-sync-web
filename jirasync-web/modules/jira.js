@@ -117,7 +117,6 @@ exports.addIssue = function (issue, projectId, req) {
     issue.fields.project = {
         id: projectId
     };
-
     
     this
     .createJira(req, "to")

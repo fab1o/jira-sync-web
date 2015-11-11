@@ -38,8 +38,12 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="modules\assemblyInfo.js" />
+    <Compile Include="modules\mapper.js" />
     <Compile Include="modules\sync.js" />
+    <Compile Include="modules\util.js" />
     <Compile Include="public\javascripts\sync.js" />
+    <Compile Include="public\javascripts\vendor\jquery-ui.js" />
+    <Compile Include="public\javascripts\vendor\jquery-ui.min.js" />
     <Compile Include="public\javascripts\vendor\jquery.smooth-scroll.js" />
     <Compile Include="public\javascripts\vendor\jquery.smooth-scroll.min.js" />
     <Compile Include="routes\api\avatar.js" />
@@ -118,7 +122,7 @@
     <Content Include="views\sync\step2.jade" />
     <Content Include="views\sync\step3\index.jade" />
     <Content Include="views\sync\step1.jade" />
-    <Content Include="views\sync\step3\settings.jade" />
+    <Content Include="views\sync\step3\mapping.jade" />
     <Content Include="views\sync\step3\sync\diff.jade" />
     <Content Include="views\sync\step3\sync\header.jade" />
     <Content Include="views\sync\step3\sync\index.jade" />
@@ -136,6 +140,7 @@
     <Folder Include="public\javascripts\" />
     <Folder Include="public\javascripts\vendor\" />
     <Folder Include="public\stylesheets\" />
+    <Folder Include="public\stylesheets\images\" />
     <Folder Include="routes\" />
     <Folder Include="routes\api\" />
     <Folder Include="routes\api\requisite\" />

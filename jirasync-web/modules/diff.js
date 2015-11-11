@@ -466,7 +466,7 @@ exports.difference = function (req) {
             if (!diff.isSynced)
                 break;
         }
-            
+
         defer.resolve(diff);
 
         //});

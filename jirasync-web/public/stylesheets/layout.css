@@ -65,6 +65,10 @@
 .height-16 {
     height:16px;
 }
+.height-32 {
+    height:32px;
+    line-height:32px;
+}
 .height-60 {
     height: 60px;
 }
@@ -72,7 +76,7 @@
     height: 70px;
 }
 .height-80 {
-    height: 70px;
+    height: 80px;
 }
 
 .margin-callout {
@@ -87,6 +91,10 @@
     position: relative;
     top: 50%;
     left: 50%;
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 
@@ -121,11 +129,15 @@
 
 h3.overflow-hide {
     height: 26px;
+    -o-text-overflow:ellipsis;
+    -ms-text-overflow:ellipsis;
     text-overflow:ellipsis;
     overflow:hidden;
 }
 h4.overflow-hide {
     height: 19px;
+    -o-text-overflow:ellipsis;
+    -ms-text-overflow:ellipsis;
     text-overflow:ellipsis;
     overflow:hidden;
 }
@@ -133,6 +145,8 @@ h4.overflow-hide {
 h5.overflow-hide {
     height: 15px;
     overflow: hidden;
+    -o-text-overflow:ellipsis;
+    -ms-text-overflow:ellipsis;
     text-overflow: ellipsis;
 }
 
@@ -222,10 +236,20 @@ h5.overflow-hide {
 .width-100 {
     width:100%;
 }
+.width-200px {
+    width:200px;
+}
 
 .pagination > li > a,
 .pagination > li > span {
   padding: 3px 6px !important;
   font-size: 9px !important;
   line-height: 1 !important;
+}
+
+.opacity-80 {
+    -moz-opacity: 0.80;
+    opacity:.80;
+    filter: alpha(opacity=80);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /*ie8 style*/
 }

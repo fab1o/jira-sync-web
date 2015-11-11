@@ -4,6 +4,7 @@ var assemblyInfo = require("../modules/assemblyInfo");
 var Enumerable = require("linq");
 var jira = require("../modules/jira");
 var diff = require("../modules/diff");
+var mapper = require("../modules/mapper");
 
 exports.step1 = function (req, res) {
     
@@ -35,28 +36,35 @@ exports.step2 = function (req, res) {
 
 exports.step3 = function (req, res) {
     
-    diff.difference(req)
-    .then(function (diff) {
+    mapper.map(req)
+    .then(function (map) {
         
-        res.render("sync/step3", {
+        diff.difference(req)
+        .then(function (diff) {
             
-            title: "Step 3",
-            
-            projectFrom: req.projectFrom,
-            projectTo: req.projectTo,
-            
-            diff: diff,
-            
-            keyFrom: req.params.keyFrom,
-            keyTo: req.params.keyTo,
-            
-            isAlmostLoggedIn: req.isAlmostLoggedIn,
-            isLoggedIn: req.isLoggedIn,
-            
-            hostFrom: req.login.from.host,
-            hostTo: req.login.to.host,
+            res.render("sync/step3", {
+                
+                title: "Step 3",
+                
+                projectFrom: req.projectFrom,
+                projectTo: req.projectTo,
+                
+                diff: diff,
+                
+                map: map,
+                
+                keyFrom: req.params.keyFrom,
+                keyTo: req.params.keyTo,
+                
+                isAlmostLoggedIn: req.isAlmostLoggedIn,
+                isLoggedIn: req.isLoggedIn,
+                
+                hostFrom: req.login.from.host,
+                hostTo: req.login.to.host,
+                
+                assemblyInfo: assemblyInfo
+            });
 
-            assemblyInfo: assemblyInfo
         });
 
     });

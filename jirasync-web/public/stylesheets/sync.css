@@ -16,6 +16,7 @@
 }
 
 .title {
+    -ms-word-wrap: break-word;
     word-wrap: break-word;
 }
 
@@ -25,4 +26,22 @@ a {
 
 .table tr > td > span.action {
   cursor: pointer;
+}
+
+.sortable {
+    cursor: pointer;
+}
+
+.settings-well {
+    min-height: 20px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.float {
+    float:left;
+}
+
+.clear {
+    clear: both;
 }

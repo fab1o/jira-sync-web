@@ -6,6 +6,11 @@ block css
 
 block content
   .jumbotron.white
+    ol.breadcrumb
+      li
+        a(href="/sync") Step 1
+      li.active= keyFrom
+
     h2 Sync to #{host} as '#{displayName}'
     p Step 2: Select the project you wish to sync to #{host}
 
@@ -21,7 +26,7 @@ block content
             th Category
         tbody.rowlink(data-link="row")
           each item, index in projects
-            tr(onclick="location = '/sync/" + keyFrom + "/" + item.key + "'")
+            tr(onclick="location='/sync/" + keyFrom + "/" + item.key + "'")
               td                
                 .avatar-small(id="#{item.key}")
                   script
